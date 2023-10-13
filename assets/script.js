@@ -1,7 +1,12 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
 $(function () {
+  // Current date variables
+  let date = new Date()
+  let hour = date.getHours() // 24 hr format
+  let dayName = date.getDay() // returns as number index
+  let day = date.getDate()
+  let month = date.getMonth() // returns as number index
+  let newHour = hour - 12 // 12 hr format
+
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -10,26 +15,61 @@ $(function () {
   // useful when saving the description in local storage?
   
 
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  
+  // !change block colors based on current hour
+  // Change to current
+  let currentHour = "hour-" + hour // 12 hr format
+  let currentMilHour = "hour-" + newHour // 24 hr format
+
+  if (hour > 12) {
+    $("#" + currentMilHour).addClass("present")
+    console.log(currentMilHour + " changed to present")
+  } else {
+    $("#" + currentHour).addClass("present")
+    console.log(currentHour + " changed to present")
+  }
+
+  // Change to past
+  for (i = 9; i < hour && i <= 12; i++) {
+    let pastHours = "hour-" + i
+    console.log(pastHours + " changed to past")
+    $("#" + pastHours).addClass("past")
+  }
+  for (i = 1; i < newHour; i++) {
+    let pastHours = "hour-" + i
+    console.log(pastHours + " changed to past")
+    $("#" + pastHours).addClass("past")
+  }
+
+  // Change to future
+  if (hour > 12) {
+    for (i = newHour + 1; i > newHour && i < 6; i++) {
+      let futureHours = "hour-" + i // 
+      console.log(futureHours + " changed to future")
+      $("#" + futureHours).addClass("future")
+    }
+  } else {
+    for (i = hour + 1; i > hour && i <= 12; i++) {
+      let futureHours = "hour-" + i
+      console.log(futureHours + " changed to future")
+      $("#" + futureHours).addClass("future")
+    }
+    for (i = 1; i < 6; i++) {
+      let futureHours = "hour-" + i
+      console.log(futureHours + " changed to future")
+      $("#" + futureHours).addClass("future")
+    }
+  }
 
   // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   
 
-  // TODO: Add code to display the current date in the header of the page.
-  let date = new Date()
+  // !Current date code
   let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
   let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-  let dayName = date.getDay() // returns as number index
-  let day = date.getDate() // returns as number
-  let month = date.getMonth() //returns as number index
   let suffix = ""
+
   if (day === 1 || day === 21 || day === 31) {
     suffix = "st"
   } else if (day === 2 || day === 22) {
@@ -40,7 +80,5 @@ $(function () {
     suffix = "th"
   }
   currentDay = days[dayName] + ", " + months[month] + " " + day + suffix
-
   $("#currentDay").text(currentDay)
-
 });

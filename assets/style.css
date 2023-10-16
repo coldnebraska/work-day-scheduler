@@ -12,6 +12,12 @@ textarea {
   padding: 10px;
 }
 
+.appointment-alert {
+  position: absolute;
+  top: 223px;
+  left: 36%;
+}
+
 .description {
   white-space: pre-wrap;
 }

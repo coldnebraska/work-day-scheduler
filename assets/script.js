@@ -20,15 +20,14 @@ let savedSchedule = {
 }
 
 $(document).ready(function () {
+  
   // !save button event listeners
   button.on("click", saveContent)
 
   // !change block colors based on current hour
   setBlockColors()
 
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
+  // !pulls saved schedule from localStorage
   getSchedule()
 
   // !current date code
@@ -49,11 +48,7 @@ function saveContent() {
 
   let buttonIndex = this.id
   let blockSelector = Object.values(savedSchedule)[buttonIndex]
-  // console.log("Button id " + this.id)
-  // console.log(content[buttonIndex].value)
-  // console.log(blockSelector)
   if (content[buttonIndex].value == "") {
-    // blockSelector.replace(content[buttonIndex].value, "")
     blockSelector.pop(content[buttonIndex])
     blockSelector.unshift("")
   } else {
@@ -61,7 +56,6 @@ function saveContent() {
     blockSelector.unshift(content[buttonIndex].value)
   }
   savedSchedule = savedSchedule
-  // console.log(blockSelector)
   localStorage.setItem("schedule", JSON.stringify(savedSchedule))
 }
 
@@ -72,40 +66,33 @@ function setBlockColors() {
  
   if (hour > 12) {
     $("#" + currentMilHour).addClass("present")
-    // console.log(currentMilHour + " changed to present")
   } else {
     $("#" + currentHour).addClass("present")
-    // console.log(currentHour + " changed to present")
   }
  
   // Change to past
   for (i = 9; i < hour && i <= 12; i++) {
     let pastHours = "hour-" + i
-    // console.log(pastHours + " changed to past")
     $("#" + pastHours).addClass("past")
   }
   for (i = 1; i < newHour; i++) {
     let pastHours = "hour-" + i
-    // console.log(pastHours + " changed to past")
     $("#" + pastHours).addClass("past")
   }
  
   // Change to future
   if (hour > 12) {
     for (i = newHour + 1; i > newHour && i < 6; i++) {
-      let futureHours = "hour-" + i // 
-      // console.log(futureHours + " changed to future")
+      let futureHours = "hour-" + i
       $("#" + futureHours).addClass("future")
     }
   } else {
     for (i = hour + 1; i > hour && i <= 12; i++) {
       let futureHours = "hour-" + i
-      // console.log(futureHours + " changed to future")
       $("#" + futureHours).addClass("future")
     }
     for (i = 1; i < 6; i++) {
       let futureHours = "hour-" + i
-      // console.log(futureHours + " changed to future")
       $("#" + futureHours).addClass("future")
    }
  }
@@ -115,10 +102,7 @@ function getSchedule() {
   let schedule = JSON.parse(localStorage.getItem("schedule"))
   
   if (schedule !== null) {
-    // console.log(schedule)
     for (i = 0; i < 9; i++) {
-      // console.log(Object.values(schedule)[i])
-      // console.log(content.eq(i))
       content.eq(i).val(Object.values(schedule)[i])
     }
   }

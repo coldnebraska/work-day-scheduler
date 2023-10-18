@@ -5,19 +5,12 @@ let dayName = date.getDay() // returns as number index
 let day = date.getDate()
 let month = date.getMonth() // returns as number index
 let newHour = hour - 12 // 12 hr format
-let button = $("button[data-index]")
+let button = $("button[id]")
+let content = $("textarea[data-content]")
 
 $(document).ready(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  
-  button.on("click", function() {
-    console.log(this)
-  })
+  // !save button event listeners
+  button.on("click", saveContent)
 
   // !change block colors based on current hour
   setBlockColors()
@@ -27,9 +20,15 @@ $(document).ready(function () {
   // attribute of each time-block be used to do this?
   getSchedule()
 
-  // !Current date code
+  // !current date code
   getCurrentDate()
 });
+
+function saveContent() {
+  console.log("Button id " + this.id)
+  let buttonIndex = this.id
+  console.log(content[buttonIndex].value)
+}
 
 function setEvent() {
   console.log("button clicked")
@@ -84,6 +83,7 @@ function setBlockColors() {
 function getSchedule() {
   let events = JSON.parse(localStorage.getItem("events"))
   // console.log(events)
+  
 
 
 }

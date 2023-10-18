@@ -13,6 +13,7 @@ textarea {
 }
 
 .appointment-alert {
+  display: none;
   position: absolute;
   top: 223px;
   left: 36%;

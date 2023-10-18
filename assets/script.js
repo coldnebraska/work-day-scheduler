@@ -8,15 +8,15 @@ let newHour = hour - 12 // 12 hr format
 let button = $("button[id]")
 let content = $("textarea[data-content]")
 let savedSchedule = {
-  hour9: [],
-  hour10: [],
-  hour11: [],
-  hour12: [],
-  hour1: [],
-  hour2: [],
-  hour3: [],
-  hour4: [],
-  hour5: []
+  hour9: [""],
+  hour10: [""],
+  hour11: [""],
+  hour12: [""],
+  hour1: [""],
+  hour2: [""],
+  hour3: [""],
+  hour4: [""],
+  hour5: [""]
 }
 
 $(document).ready(function () {
@@ -36,18 +36,33 @@ $(document).ready(function () {
 });
 
 function saveContent() {
+  $(".appointment-alert").css("display", "block")
+
+  let timeLeft = 2
+  let timeInterval = setInterval(function () {
+    timeLeft--
+    if (timeLeft === 0) {
+      clearInterval(timeInterval)
+      $(".appointment-alert").css("display", "none")
+    }
+  }, 1000)
+
   let buttonIndex = this.id
   let blockSelector = Object.values(savedSchedule)[buttonIndex]
   // console.log("Button id " + this.id)
   // console.log(content[buttonIndex].value)
   // console.log(blockSelector)
-  blockSelector.push(content[buttonIndex].value)
+  if (content[buttonIndex].value == "") {
+    // blockSelector.replace(content[buttonIndex].value, "")
+    blockSelector.pop(content[buttonIndex])
+    blockSelector.unshift("")
+  } else {
+    blockSelector.pop(content[buttonIndex])
+    blockSelector.unshift(content[buttonIndex].value)
+  }
+  savedSchedule = savedSchedule
   // console.log(blockSelector)
   localStorage.setItem("schedule", JSON.stringify(savedSchedule))
-}
-
-function setEvent() {
-  console.log("button clicked")
 }
 
 function setBlockColors() {
@@ -98,11 +113,14 @@ function setBlockColors() {
 
 function getSchedule() {
   let schedule = JSON.parse(localStorage.getItem("schedule"))
-  // console.log(schedule)
-  for (i = 0; i < 9; i++) {
-    // console.log(Object.values(schedule)[i])
-    // console.log(content.eq(i))
-    content.eq(i).val(Object.values(schedule)[i])
+  
+  if (schedule !== null) {
+    // console.log(schedule)
+    for (i = 0; i < 9; i++) {
+      // console.log(Object.values(schedule)[i])
+      // console.log(content.eq(i))
+      content.eq(i).val(Object.values(schedule)[i])
+    }
   }
 }
   

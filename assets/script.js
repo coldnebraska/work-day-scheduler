@@ -20,8 +20,8 @@ let savedSchedule = {
 }
 
 $(document).ready(function () {
-  
-  // !save button event listeners
+
+  // !save button event listener
   button.on("click", saveContent)
 
   // !change block colors based on current hour
@@ -35,8 +35,28 @@ $(document).ready(function () {
 });
 
 function saveContent() {
-  $(".appointment-alert").css("display", "block")
+  appointmentAlert()
 
+  // schedule update code
+  let buttonIndex = this.id
+  let blockSelector = Object.values(savedSchedule)[buttonIndex]
+  if (content[buttonIndex].value == "") {
+    // removes events
+    blockSelector.pop(content[buttonIndex])
+    blockSelector.unshift("")
+  } else {
+    // replaces events
+    blockSelector.pop(content[buttonIndex])
+    blockSelector.unshift(content[buttonIndex].value)
+  }
+
+  // updates schedule object
+  savedSchedule = savedSchedule
+  localStorage.setItem("schedule", JSON.stringify(savedSchedule))
+}
+
+function appointmentAlert() {
+  $(".appointment-alert").css("display", "block")
   let timeLeft = 2
   let timeInterval = setInterval(function () {
     timeLeft--
@@ -45,18 +65,6 @@ function saveContent() {
       $(".appointment-alert").css("display", "none")
     }
   }, 1000)
-
-  let buttonIndex = this.id
-  let blockSelector = Object.values(savedSchedule)[buttonIndex]
-  if (content[buttonIndex].value == "") {
-    blockSelector.pop(content[buttonIndex])
-    blockSelector.unshift("")
-  } else {
-    blockSelector.pop(content[buttonIndex])
-    blockSelector.unshift(content[buttonIndex].value)
-  }
-  savedSchedule = savedSchedule
-  localStorage.setItem("schedule", JSON.stringify(savedSchedule))
 }
 
 function setBlockColors() {
@@ -117,9 +125,9 @@ function getCurrentDate() {
     suffix = "st"
   } else if (day === 2 || day === 22) {
     suffix = "nd"
-  }else if (day === 3 || day === 23) {
+  } else if (day === 3 || day === 23) {
     suffix = "rd"
-  }else {
+  } else {
     suffix = "th"
   }
   currentDay = days[dayName] + ", " + months[month] + " " + day + suffix

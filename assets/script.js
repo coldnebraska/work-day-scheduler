@@ -7,6 +7,17 @@ let month = date.getMonth() // returns as number index
 let newHour = hour - 12 // 12 hr format
 let button = $("button[id]")
 let content = $("textarea[data-content]")
+let savedSchedule = {
+  hour9: [],
+  hour10: [],
+  hour11: [],
+  hour12: [],
+  hour1: [],
+  hour2: [],
+  hour3: [],
+  hour4: [],
+  hour5: []
+}
 
 $(document).ready(function () {
   // !save button event listeners
@@ -25,9 +36,14 @@ $(document).ready(function () {
 });
 
 function saveContent() {
-  console.log("Button id " + this.id)
   let buttonIndex = this.id
-  console.log(content[buttonIndex].value)
+  let blockSelector = Object.values(savedSchedule)[buttonIndex]
+  // console.log("Button id " + this.id)
+  // console.log(content[buttonIndex].value)
+  // console.log(blockSelector)
+  blockSelector.push(content[buttonIndex].value)
+  // console.log(blockSelector)
+  localStorage.setItem("schedule", JSON.stringify(savedSchedule))
 }
 
 function setEvent() {
@@ -81,11 +97,13 @@ function setBlockColors() {
 }
 
 function getSchedule() {
-  let events = JSON.parse(localStorage.getItem("events"))
-  // console.log(events)
-  
-
-
+  let schedule = JSON.parse(localStorage.getItem("schedule"))
+  // console.log(schedule)
+  for (i = 0; i < 9; i++) {
+    // console.log(Object.values(schedule)[i])
+    // console.log(content.eq(i))
+    content.eq(i).val(Object.values(schedule)[i])
+  }
 }
   
 function getCurrentDate() {

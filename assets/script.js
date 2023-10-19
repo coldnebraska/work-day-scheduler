@@ -72,7 +72,7 @@ function setBlockColors() {
   let currentHour = "hour-" + hour // 12 hr format
   let currentMilHour = "hour-" + newHour // 24 hr format
  
-  if (hour > 12) {
+  if (hour > 12 && hour < 18) {
     $("#" + currentMilHour).addClass("present")
   } else {
     $("#" + currentHour).addClass("present")
@@ -115,7 +115,7 @@ function getSchedule() {
     }
   }
 }
-  
+
 function getCurrentDate() {
   let days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
   let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]

@@ -31,7 +31,7 @@ $(document).ready(function () {
   getSchedule()
 
   // !current date code
-  getCurrentDate()
+  setInterval(getCurrentDate, 1000)
 });
 
 function saveContent() {
